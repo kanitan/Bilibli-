@@ -27,7 +27,21 @@ headers = {
     'Referer':'https://www.bilibili.com/',
     'Connection':'keep-alive'}
     
-cookies={'cookie':'LIVE_BUVID=AUTO6415404632769145; sid=7lzefkl6; stardustvideo=1; CURRENT_FNVAL=16; rpdid=kwmqmilswxdospwpxkkpw; fts=1540466261; im_notify_type_293928856=0; CURRENT_QUALITY=64; buvid3=D1539899-8626-4E86-8D7B-B4A84FC4A29540762infoc; _uuid=79056333-ED23-6F44-690F-1296084A1AAE80543infoc; gr_user_id=32dbb555-8c7f-4e11-beb9-e3fba8a10724; grwng_uid=03b8da29-386e-40d0-b6ea-25dbc283dae5; UM_distinctid=16b8be59fb13bc-094e320148f138-37617e02-13c680-16b8be59fb282c; DedeUserID=293928856; DedeUserID__ckMd5=6dc937ced82650a6; SESSDATA=b7d13f3a%2C1567607524%2C4811bc81; bili_jct=6b3e565d30678a47c908e7a03254318f; _uuid=01B131EB-D429-CA2D-8D86-6B5CD9EA123061556infoc; bsource=seo_baidu'}
+#cookies={'cookie':'LIVE_BUVID=AUTO6415404632769145; sid=7lzefkl6; stardustvideo=1; CURRENT_FNVAL=16; rpdid=kwmqmilswxdospwpxkkpw; fts=1540466261; im_notify_type_293928856=0; CURRENT_QUALITY=64; buvid3=D1539899-8626-4E86-8D7B-B4A84FC4A29540762infoc; _uuid=79056333-ED23-6F44-690F-1296084A1AAE80543infoc; gr_user_id=32dbb555-8c7f-4e11-beb9-e3fba8a10724; grwng_uid=03b8da29-386e-40d0-b6ea-25dbc283dae5; UM_distinctid=16b8be59fb13bc-094e320148f138-37617e02-13c680-16b8be59fb282c; DedeUserID=293928856; DedeUserID__ckMd5=6dc937ced82650a6; SESSDATA=b7d13f3a%2C1567607524%2C4811bc81; bili_jct=6b3e565d30678a47c908e7a03254318f; _uuid=01B131EB-D429-CA2D-8D86-6B5CD9EA123061556infoc; bsource=seo_baidu'}
+cookies={           
+       '_dfcaptcha':'2dd6f170a70dd9d39711013946907de0',
+       'bili_jct':'0e4b9c410994c3b19c2b9ba4aa4b0412',
+       'buvid3':'E63976A6-062A-4E5D-BB57-41DDD6CAD05933691infoc',
+       'CURRENT_FNVAL':'16',
+       'DedeUserID':'21270960',
+       'DedeUserID__ckMd5':'e14dd5193388f5f7',
+       'LIVE_BUVID':'AUTO6315421125315777; fts=1542112657',
+       'rpdid':'|(m~m~JR|kR0J\'ullY|kJ~||',
+       'SESSDATA':'87c740f4%2C1581992481%2C069dfb11',
+       'sid':'9xhluqpa',
+       'stardustvideo':'1',
+        }
+
 
 k=0
 def get_bilibili_detail(id):
@@ -59,21 +73,27 @@ def get_bilibili_detail(id):
         reply=content['data']['stat']['reply']
         share=content['data']['stat']['share']
         view=content['data']['stat']['view']
-    info={'视频id':id,'最新弹幕数量':danmu,'金币数量':coin,'不喜欢':dislike,'收藏':favorite,'最高排名':his_rank,'点赞数':like,'目前排名':now_rank,'回复数':reply,'分享数':share,'观看数':view}
+        # @KANITAN___ :增加获取cid,title
+        cid=content['data']['cid']
+        title=content['data']['title']
+        uptime=content['data']['pubdate']
+    info={'视频id':id,'cid':cid,'视频标题':title,'上传时间':uptime,'最新弹幕数量':danmu,'金币数量':coin,'不喜欢':dislike,'收藏':favorite,'最高排名':his_rank,'点赞数':like,'目前排名':now_rank,'回复数':reply,'分享数':share,'观看数':view}
     
     return info
 
 if __name__=='__main__': 
-    df=pd.read_excel('哪吒.xlsx')
-    avids=df['视频id']
-    detail_lists=[]
-    for id in avids:
-        detail_lists.append(get_bilibili_detail(id))
+    # df=pd.read_excel('哪吒.xlsx')
+    # avids=df['视频id']
+    # detail_lists=[]
+    # for id in avids:
+    #     detail_lists.append(get_bilibili_detail(id))
+    id='83906533'
+    print(get_bilibili_detail(id))
 
-    reshape_df=pd.DataFrame(detail_lists) 
-    final_df=pd.merge(df,reshape_df,how='inner',on='视频id')
-    final_df.to_excel('藕饼cp详情new.xlsx')
-    final_df.info()
+    # reshape_df=pd.DataFrame(detail_lists) 
+    # final_df=pd.merge(df,reshape_df,how='inner',on='视频id')
+    # final_df.to_excel('藕饼cp详情new.xlsx')
+    # final_df.info()
 #    final_df.duplicated(['视频id'])
 #    reshape_df.to_excel('藕饼cp.xlsx')
         
